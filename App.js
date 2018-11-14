@@ -1,32 +1,21 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- *
- * @format
- * @flow
- */
-
-import React, {Component} from 'react';
-import {Platform, StyleSheet, Text, View,Button,StatusBar,TouchableOpacity,FlatList,
-  Dimensions,TouchableHighlight,
-  Image} from 'react-native';
-//import {StackNavigator} from 'react-navigation';
-import { FormattedDate } from 'react-native-globalize';
-//import ExpenseListItem from './App/components/ExpenseListItem';
-import ExpenseListScreen from './App/screen/ExpenseListScreen';
+import React, { Component } from 'react';
+import { View, Text,StyleSheet } from 'react-native';
 import {createBottomTabNavigator} from 'react-navigation';
-import AddTransactionScreen from './App/screen/AddTransactionScreen';
+//import local file
+import TransactionScreen from './App/screens/Transactions';
+import AddTransactionScreen from './App/screens/AddTransactions';
+import AddAccountScreen from './App/screens/AddAccount';
+const App=createBottomTabNavigator({
+	AddTransactionScreen:{
+		screen:AddTransactionScreen
+	},
+	TransactionScreen:{
+		screen:TransactionScreen
+	},
+	AddAccountScreen:{
+		screen:AddAccountScreen
+	}
+	
+})
 
-let routeConfigs={
-  ExpenseListScreen:{
-    screen:ExpenseListScreen,title:'Hello',
-    
-  },
-  AddTransactionScreen:{
-  screen:AddTransactionScreen,}
-}
-let tabNavigatorConfig={
-
-}
-const App=createBottomTabNavigator(routeConfigs,tabNavigatorConfig);
-module.exports=App
+export default App;
