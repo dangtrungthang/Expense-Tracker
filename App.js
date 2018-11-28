@@ -1,21 +1,26 @@
 import React, { Component } from 'react';
-import { View, Text,StyleSheet } from 'react-native';
-import {createBottomTabNavigator} from 'react-navigation';
-//import local file
-import TransactionScreen from './App/screens/Transactions';
-import AddTransactionScreen from './App/screens/AddTransactions';
-import AddAccountScreen from './App/screens/AddAccount';
-const App=createBottomTabNavigator({
-	AddTransactionScreen:{
-		screen:AddTransactionScreen
-	},
-	TransactionScreen:{
-		screen:TransactionScreen
-	},
-	AddAccountScreen:{
-		screen:AddAccountScreen
-	}
-	
-})
+import { View, Text } from 'react-native';
+import {Apps} from './src/configs/configNavigation';
+import { createStore } from 'redux';
+import { Provider } from 'react-redux';
+import allReducers from './src/reducers/allReducers';
+let store=createStore(allReducers)
 
-export default App;
+
+
+export default class App extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+    };
+  }
+
+  render() {
+    return (
+      <Provider store={store}>
+        <Apps/>
+      </Provider>
+
+    );
+  }
+}
