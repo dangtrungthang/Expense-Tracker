@@ -2,6 +2,8 @@ import AddExpense from '../screens/AddExpense';
 import AddAccount from '../screens/AddAccount';
 import Accounts from '../screens/Accounts';
 import Transaction from '../screens/Transaction';
+import Category from '../screens/Category';
+import AddCategory from '../screens/AddCategory';
 import colors from './colors';
 import {createStackNavigator,createBottomTabNavigator} from 'react-navigation';
 
@@ -9,22 +11,22 @@ import {createStackNavigator,createBottomTabNavigator} from 'react-navigation';
 export const AddExpenseNv=createStackNavigator({
     AddExpense:{
         screen:AddExpense,
-        navigationOptions:()=>({
-            title:'s',
-            headerStyle: {
-                backgroundColor: colors.colorHeader,
-                height:30
-              },
-              
-        })
+        
     },
     Accounts:{
-        screen:Accounts
+        screen:Accounts,
     },
     AddAccount:{
         screen:AddAccount,
        
+    },
+    Category:{
+        screen:Category
+    },
+    AddCategory:{
+        screen:AddCategory
     }
+   
 }
 )
 
@@ -34,8 +36,10 @@ export const AccountsNv=createStackNavigator({
     }
 })
 export const Apps=createBottomTabNavigator({
+     Tab2:{screen:AddExpenseNv},
     Tab1:{screen:Transaction},
-    Tab2:{screen:AddExpenseNv}
+   
+
    
    
   },{

@@ -18,12 +18,13 @@ import getAccountID from '../reducers/Accounts';
   // Tuỳ chỉnh navigatoin (icon, title, style,...)
   static navigationOptions = ({ navigation }) => {
     return {
-      headerTitle: 'Select Account',
-      headerTitleContainerStyle: { alignContent: 'center', },
+     
+     
       headerRight:(
         <TouchableOpacity
         onPress={navigation.getParam('onAdd')}>
-          <Icon size={28} name={"add"}/>
+         <Text style={{fontSize:28,marginRight:15}}>+</Text>
+          
         </TouchableOpacity>
       )
     };

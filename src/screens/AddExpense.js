@@ -7,6 +7,7 @@ import * as actions from '../actions/index';
 import colors from '../configs/colors';
 import HeaderComponent from '../components/HeaderComponent';
 import ListSelector from '../components/ListSelector';
+import Note from '../components/Note';
 import iconDefaults from '../configs/iconDefaults'
 import { insertNewAccount, queryAllAccountLists,insertExpenseToAccount } from '../databases/allSchemas';
 import { AccountsNv} from '../configs/configNavigation';
@@ -21,8 +22,9 @@ class AddExpense extends React.Component {
       date: 'Today',
       category:'Expense',
       amount:'',
-      accountID:'Select Account'
-
+      accountID:'Select Account',
+      note:'Note',
+      isNote:false
 
       
 
@@ -91,9 +93,8 @@ class AddExpense extends React.Component {
           placeholder='0'
           />
         <ListSelector text="Catagory" icon={iconDefaults.catagory} onPress={() => {
-
-        }} />
-        <ListSelector text="Note" icon={iconDefaults.note} />
+          this.props.navigation.navigate('Category')
+        }} />      
         <ListSelector text={this.state.date} icon={iconDefaults.calendar}
           onPress={this._showDateTimePicker} />
         <DateTimePicker
@@ -101,15 +102,22 @@ class AddExpense extends React.Component {
           onConfirm={this._handleDatePicked}
           onCancel={this._hideDateTimePicker}
           mode='date'
-
-
         />
         <ListSelector text={this.state.accountID} icon={iconDefaults.account}
         onPress={()=>{
           this.props.navigation.navigate('Accounts')
           
         }} />
-        
+         <ListSelector text={this.state.note} icon={iconDefaults.note} 
+        onPress={()=>{
+          if(this.state.isNote){
+            this.setState({isNote:false})
+          }else{
+            this.setState({isNote:true})
+          }
+        }}/>
+        <Note isActive={this.state.isNote}
+        onChangeText={(text)=>this.setState({note:text})}/>
       </View>
     );
   }
