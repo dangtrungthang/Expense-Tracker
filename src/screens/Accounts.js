@@ -19,12 +19,23 @@ import getAccountID from '../reducers/Accounts';
   static navigationOptions = ({ navigation }) => {
     return {
       headerTitle: 'Select Account',
-      headerTitleContainerStyle: { alignContent: 'center', }
+      headerTitleContainerStyle: { alignContent: 'center', },
+      headerRight:(
+        <TouchableOpacity
+        onPress={navigation.getParam('onAdd')}>
+          <Icon size={28} name={"add"}/>
+        </TouchableOpacity>
+      )
     };
   };
   // load dữ liệu khi ứng dụng bắt đầu chạy 
   componentWillMount() {
     this.loadData();
+    this.props.navigation.setParams({ onAdd: this._onAdd.bind(this) });
+  }
+  // Hàm điều hướng sang màn hình addAccount
+  _onAdd(){
+    this.props.navigation.navigate('AddAccount')
   }
   // Hàm thiết kế giao diện các Item trong danh sách
   renderItem = (item) => {
