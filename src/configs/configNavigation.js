@@ -4,6 +4,7 @@ import Accounts from '../screens/Accounts';
 import Transaction from '../screens/Transaction';
 import Category from '../screens/Category';
 import AddCategory from '../screens/AddCategory';
+
 import colors from './colors';
 import {createStackNavigator,createBottomTabNavigator} from 'react-navigation';
 
@@ -25,7 +26,8 @@ export const AddExpenseNv=createStackNavigator({
     },
     AddCategory:{
         screen:AddCategory
-    }
+    },
+   
    
 }
 )

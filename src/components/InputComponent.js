@@ -13,10 +13,9 @@ class HeaderComponent extends Component {
     render() {
         return (
             <View style={styles.container}>
-                <TouchableOpacity style={{
-                    flex: 1,
-                    marginLeft: 10,marginTop:12
-                }}>
+                <TouchableOpacity 
+                style={{ flex: 1,marginLeft: 10,marginTop:12  }}
+                onPress={this.props.onPressIcon}>
                     <Image style={styles.iconStyle} source={this.props.icon} />
 
                 </TouchableOpacity>
@@ -28,7 +27,8 @@ class HeaderComponent extends Component {
                         onChangeText={this.props.changeText}
                         keyboardType={this.props.keyboardType}
                         placeholder={this.props.placeholder}
-                        placeholderTextColor='white'
+                        
+                        placeholderTextColor={this.props.placeholderTextColor}
                     />
                 </View>
 
