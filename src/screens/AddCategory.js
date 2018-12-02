@@ -7,15 +7,17 @@ import InputComponent from '../components/InputComponent';
 import Segment from '../components/Segment';
 import { insertNewCategory } from '../databases/allSchemas';
 import Modal from "react-native-modal";
-
+import { connect } from 'react-redux';
+import * as actions from '../actions/index';
 const heightModal = Dimensions.get('window').height / 2.5;
 const widthtModal = Dimensions.get('window').width;
-export default class AddCategory extends Component {
+class AddCategory extends Component {
     constructor(props) {
         super(props);
         this.state = {
             isExpense: true,
             name: '',
+
             isVisibleModal: false
         };
     }
@@ -40,7 +42,7 @@ export default class AddCategory extends Component {
         const newCategory = {
             id: Math.floor(Date.now() / 1000).toString(),
             name: this.state.name,
-            icon: 'none',
+            icon: JSON.stringify(this.props.IconURL),
             isExpense: this.state.isExpense
         }
         insertNewCategory(newCategory).then(() => {
@@ -53,10 +55,11 @@ export default class AddCategory extends Component {
         return (
             <View style={styles.container}>
                 <InputComponent
-                    icon={iconDefaults.budget}
+                    icon={this.props.IconURL}
                     placeholder="Tên nhóm"
                     placeholderTextColor={colors.rowSeparator}
-                    onPressIcon={() => this.setState({ isVisibleModal: true })} />
+                    onPressIcon={() => this.setState({ isVisibleModal: true })}
+                    changeText={(text) => this.setState({ name: text })} />
                 <View style={[styles.wrapperRow, { height: 35, alignItems: 'center' }]}>
                     <Text style={{ flex: 1 }}>Thu nhập/ Chi tiêu</Text>
 
@@ -72,7 +75,7 @@ export default class AddCategory extends Component {
                     //deviceWidth={widthtModal}
                     style={styles.styleModal}>
                     <ListIcon
-                    onPress={() => this.setState({ isVisibleModal: false })}/>
+                        onPress={() => this.setState({ isVisibleModal: false })} />
 
 
                 </Modal>
@@ -114,9 +117,26 @@ const styles = StyleSheet.create({
         borderRadius: 3,
         marginRight: 15,
     },
-    styleModal:{
+    styleModal: {
         justifyContent: "flex-start",
         marginTop: heightModal,
-        marginHorizontal:0 
+        marginHorizontal: 0, marginBottom: 0,
+        backgroundColor: 'white'
     }
-})
+});
+const mapStateToProps = (state) => {
+    return {
+        IconURL: state.getIconURL
+    }
+}
+const mapDispatchToProps = (dispatch) => {
+    return {
+        onGetURL: (URL) => {
+            dispatch(actions.getIcon(URL))
+        }
+    }
+}
+
+
+export default connect(mapStateToProps, mapDispatchToProps)(AddCategory);
+

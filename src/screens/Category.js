@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import { View, Text, FlatList, StyleSheet, Image, TouchableOpacity } from 'react-native';
 import { insertNewCategory, queryAllCategoryLists, getIdCategory } from '../databases/allSchemas';
-import colors from '../configs/colors'
+import colors from '../configs/colors';
+
 export default class Category extends Component {
     constructor(props) {
         super(props);
@@ -12,6 +13,7 @@ export default class Category extends Component {
     }
     static navigationOptions = ({ navigation }) => {
         return {
+          
           headerStyle: {
             // backgroundColor: colors.colorHeader,
             
@@ -63,10 +65,12 @@ export default class Category extends Component {
                 <FlatList
                     data={this.state.data}
                     renderItem={({ item }) => {
+                        let obj=JSON.parse(item.icon)
                         return (
                             <TouchableOpacity style={styles.wrapperRow}>
-                                <Image style={styles.icon} source={require('../asset/icon/budget.png')} />
+                                <Image style={styles.icon} source={obj} />
                                 <Text style={styles.lineRow}>{item.name}</Text>
+                                <Text>{obj}</Text>
                             </TouchableOpacity>
                         )
 

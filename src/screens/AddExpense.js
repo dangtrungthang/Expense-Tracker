@@ -11,6 +11,7 @@ import Note from '../components/Note';
 import iconDefaults from '../configs/iconDefaults'
 import { insertNewAccount, queryAllAccountLists,insertExpenseToAccount } from '../databases/allSchemas';
 import { AccountsNv} from '../configs/configNavigation';
+import Modal from "react-native-modal";
 class AddExpense extends React.Component {
   constructor(props) {
     super(props)
@@ -24,7 +25,8 @@ class AddExpense extends React.Component {
       amount:'',
       accountID:'Select Account',
       note:'Note',
-      isNote:false
+      isNote:false,
+     
 
       
 
@@ -94,6 +96,7 @@ class AddExpense extends React.Component {
           />
         <ListSelector text="Catagory" icon={iconDefaults.catagory} onPress={() => {
           this.props.navigation.navigate('Category')
+          
         }} />      
         <ListSelector text={this.state.date} icon={iconDefaults.calendar}
           onPress={this._showDateTimePicker} />
@@ -118,6 +121,7 @@ class AddExpense extends React.Component {
         }}/>
         <Note isActive={this.state.isNote}
         onChangeText={(text)=>this.setState({note:text})}/>
+       
       </View>
     );
   }

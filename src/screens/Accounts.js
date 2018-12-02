@@ -18,7 +18,7 @@ import getAccountID from '../reducers/Accounts';
   // Tuỳ chỉnh navigatoin (icon, title, style,...)
   static navigationOptions = ({ navigation }) => {
     return {
-     
+    
      
       headerRight:(
         <TouchableOpacity

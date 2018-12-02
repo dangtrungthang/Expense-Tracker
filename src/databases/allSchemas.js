@@ -48,7 +48,7 @@ export const insertNewAccount = newAccount => new Promise((resolve, reject) => {
     Realm.open(databaseOptions).then(realm => {
         realm.write(() => {
             realm.create(ACCOUNT_SCHEMA, newAccount);
-            
+
             resolve(newAccount);
         });
     }).catch((error) => reject(error));
@@ -128,22 +128,22 @@ export const insertNewCategory = newCategory => new Promise((resolve, reject) =>
     }).catch((error) => reject(error));
 });
 
-// Lấy dữ liệu category
+// Đổ dữ liệu category 
 export const queryAllCategoryLists = () => new Promise((resolve, reject) => {
     Realm.open(databaseOptions).then(realm => {
         let allCategory = realm.objects(CATEGORY_SHEMA);
-       
+
         resolve(allCategory);
     }).catch((error) => {
         reject(error);
     });
 });
 // Lấy id category 
-export const getIdCategory=(id)=>new Promise((resolve,reject)=>{
-    Realm.open(databaseOptions).then(realm=>{
-        let category=realm.objectForPrimaryKey(CATEGORY_SHEMA,id)
+export const getIdCategory = (id) => new Promise((resolve, reject) => {
+    Realm.open(databaseOptions).then(realm => {
+        let category = realm.objectForPrimaryKey(CATEGORY_SHEMA, id)
         resolve(category.id)
-    }).catch((error)=>{
+    }).catch((error) => {
         reject(error)
     })
 })

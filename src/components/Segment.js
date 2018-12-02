@@ -62,6 +62,6 @@ const styles = StyleSheet.create({
     wrapper: {
         flexDirection: 'row',
         borderWidth: 1,
-        borderRadius: 5,
+        borderRadius: 3,
     }
 });

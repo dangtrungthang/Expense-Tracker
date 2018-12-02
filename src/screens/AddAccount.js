@@ -6,6 +6,7 @@ import ListSelector from '../components/ListSelector';
 import iconDefaults from '../configs/iconDefaults';
 import colors from '../configs/colors';
 import { insertNewAccount } from '../databases/allSchemas';
+
 export default class AddAccount extends Component {
   constructor(props) {
     super(props);
@@ -18,6 +19,7 @@ export default class AddAccount extends Component {
   // Tuỳ chỉnh navigation (title, thêm button, style,..)
   static navigationOptions = ({ navigation }) => {
     return {
+      
       headerStyle: {
         backgroundColor: colors.colorHeader,
         height: 30
