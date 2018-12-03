@@ -9,7 +9,7 @@ import HeaderComponent from '../components/HeaderComponent';
 import ListSelector from '../components/ListSelector';
 import Note from '../components/Note';
 import iconDefaults from '../configs/iconDefaults'
-import { insertNewAccount, queryAllAccountLists,insertExpenseToAccount } from '../databases/allSchemas';
+import { insertNewAccount, queryAllAccountLists,insertExpenseToAccount,insertCategoryToExpense } from '../databases/allSchemas';
 import { AccountsNv} from '../configs/configNavigation';
 import Modal from "react-native-modal";
 class AddExpense extends React.Component {
@@ -69,15 +69,19 @@ class AddExpense extends React.Component {
        id:Math.floor(Date.now() / 1000).toString(),
        accountID:this.props.accountID,
        amount:this.state.amount,
-       category:this.state.category,
+       categoryName:this.props.categorySelected.name,
+       categoryIcon:this.props.categorySelected.icon,
+       isExpense:this.props.categorySelected.isExpense,
        creationDate:this.state.date,
      }
    ]
   insertExpenseToAccount(this.props.accountID,expense).then(()=>{
-
+ alert('OK ')
   }).catch((error)=>{
     alert('Loi them')
   })
+
+  
  }
 
  componentDidMount() {
@@ -94,7 +98,7 @@ class AddExpense extends React.Component {
           keyboardType='decimal-pad'
           placeholder='0'
           />
-        <ListSelector text="Catagory" icon={iconDefaults.catagory} onPress={() => {
+        <ListSelector text={this.props.categorySelected.name} icon={JSON.parse(this.props.categorySelected.icon)} onPress={() => {
           this.props.navigation.navigate('Category')
           
         }} />      
@@ -128,7 +132,8 @@ class AddExpense extends React.Component {
 }
 const mapStateToProps = (state) => {
   return {
-    accountID:state.getAccountID
+    accountID:state.getAccountID,
+    categorySelected:state.getCategory
   }
 }
 

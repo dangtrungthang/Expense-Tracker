@@ -22,7 +22,9 @@ export const ExpenseSchema = {
         id: 'string',    // primary key      
         accountID: { type: 'string', default: 'Default Account' },
         amount: { type: 'string', indexed: true },
-        category: { type: 'list', objectType: CATEGORY_SHEMA },
+        categoryName:'string',
+        categoryIcon:'string',
+        isExpense:'bool',
         creationDate: 'string',
     }
 };
@@ -127,7 +129,21 @@ export const insertNewCategory = newCategory => new Promise((resolve, reject) =>
         });
     }).catch((error) => reject(error));
 });
+//Add array of Category to an existing Expense
+export const insertCategoryToExpense = (ExpenseID, newCategory) => new Promise((resolve, reject) => {
+    Realm.open(databaseOptions).then(realm => {
+        let expense = realm.objectForPrimaryKey(EXPENSE_SCHEMA, ExpenseID);
+        realm.write(() => {
+            for (var index in newCategory) {
+                expense.category.push(newCategory[index]);
+            }
+            resolve(newCategory);
+        })
 
+    }).catch((error) => {
+        reject(error);
+    })
+});
 // Đổ dữ liệu category 
 export const queryAllCategoryLists = () => new Promise((resolve, reject) => {
     Realm.open(databaseOptions).then(realm => {

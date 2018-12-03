@@ -27,7 +27,7 @@ export default class Segment extends Component {
     // style: View.propTypes.style
   };
 
-  static defaultProps = { // 返回默认的一些属性值
+  static defaultProps = { 
     data: ['One', 'Two', 'Three'],
     verticalWidth: 100,
     verticalHeight: 120,
@@ -92,7 +92,7 @@ function createStyle (borderRadius) {
     item: {
       flex: 1,
       justifyContent: 'center',
-      alignItems: 'center'
+      alignItems: 'center',
     },
     horizontalStartItem: {
       borderTopLeftRadius: borderRadius,

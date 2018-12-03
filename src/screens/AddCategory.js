@@ -77,7 +77,8 @@ class AddCategory extends Component {
                             }   
                         }}
                         horizontalWidth={150}
-                        horizontalHeight={30} />
+                        horizontalHeight={20}
+                        activeColor='green' />
                 </View>
                 <Modal
                     isVisible={this.state.isVisibleModal}
@@ -136,7 +137,8 @@ const styles = StyleSheet.create({
 });
 const mapStateToProps = (state) => {
     return {
-        IconURL: state.getIconURL
+        IconURL: state.getIconURL,
+       
     }
 }
 const mapDispatchToProps = (dispatch) => {

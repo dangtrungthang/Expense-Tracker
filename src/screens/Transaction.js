@@ -18,15 +18,17 @@ export default class Transaction extends Component {
         <Image style={styles.icon}
           source={iconDefaults.catagory} />
         <View style={styles.containerText}>
-          <Text>{item.catagory}</Text>
+          <Text>{item.categoryName}</Text>
           <Text>{item.id}</Text>
         </View>
-        <Text style={styles.amount}>${item.amount}</Text>
+        <Text style={item.isExpense?styles.amount:{marginRight: 15,
+    alignSelf: 'center',
+    color: 'green'}}>${item.amount}</Text>
       </View>
     )
   }
   _Load() {
-    getExpenseFromAccount('1543387865').then((data) => {
+    getExpenseFromAccount('1543848687').then((data) => {
       this.setState({ data })
       alert('OK')
     }).catch((error) => {

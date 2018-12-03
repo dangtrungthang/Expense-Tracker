@@ -4,7 +4,9 @@ import { insertNewCategory, queryAllCategoryLists, getIdCategory } from '../data
 import colors from '../configs/colors';
 import realm from '../databases/allSchemas';
 import Segment from '../components/Segment';
-export default class Category extends Component {
+import { connect } from 'react-redux';
+import * as actions from '../actions/index';
+class Category extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -81,7 +83,8 @@ export default class Category extends Component {
                             }   
                         }}
                         horizontalWidth={150}
-                        horizontalHeight={30} />
+                        horizontalHeight={20}
+                        activeColor='green' />
                 </View>
                
                 <FlatList
@@ -89,7 +92,11 @@ export default class Category extends Component {
                     renderItem={({ item }) => {
                         let obj=JSON.parse(item.icon)
                         return (
-                            <TouchableOpacity style={styles.wrapperRow}>
+                            <TouchableOpacity 
+                            onPress={(event)=>{
+                                this.props.onGetCategory(item)
+                            }}
+                            style={styles.wrapperRow}>
                                 <Image style={styles.icon} source={obj} />
                                 <Text style={styles.lineRow}>{item.name}</Text>
                                 <Text>{obj}</Text>
@@ -125,6 +132,23 @@ const styles = StyleSheet.create({
     },
     containerSegment:{
         alignItems:'center',
-      
+        backgroundColor:'white',
+        justifyContent:'center',
+        height:30,
      }
 });
+const mapStateToProps = (state) => {
+    return {
+        IconURL: state.getIconURL
+    }
+}
+const mapDispatchToProps = (dispatch) => {
+    return {
+        onGetCategory: (category) => {
+            dispatch(actions.getCategory(category))
+        }
+    }
+}
+
+
+export default connect(mapStateToProps, mapDispatchToProps)(Category);
