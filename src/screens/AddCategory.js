@@ -64,10 +64,20 @@ class AddCategory extends Component {
                     <Text style={{ flex: 1 }}>Thu nhập/ Chi tiêu</Text>
 
                     <Segment
-                        titleTab1='Thu nhập'
-                        titleTab2='Chi tiêu'
-                        onPressTab1={() => this.setState({ isExpense: true })}
-                        onPressTab2={() => this.setState({ isExpense: false })} />
+                        data={['Thu nhập', 'Chi tiêu']}
+                        selected={this.state.selected}
+                        onPress={index => {
+                            if(index==1){
+                                this.setState({isExpense:false})
+                                this.setState({selected:index})
+                            }else{
+                                this.setState({isExpense:true})
+                                this.setState({selected:index})
+
+                            }   
+                        }}
+                        horizontalWidth={150}
+                        horizontalHeight={30} />
                 </View>
                 <Modal
                     isVisible={this.state.isVisibleModal}

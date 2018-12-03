@@ -2,14 +2,21 @@ import React, { Component } from 'react';
 import { View, Text, FlatList, StyleSheet, Image, TouchableOpacity } from 'react-native';
 import { insertNewCategory, queryAllCategoryLists, getIdCategory } from '../databases/allSchemas';
 import colors from '../configs/colors';
-
+import realm from '../databases/allSchemas';
+import Segment from '../components/Segment';
 export default class Category extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            data: [],
-            isData:''
+            Expense: [],
+            Income:[],
+            isData:'',
+            isExpense:true
         };
+        this._reloadData();
+        realm.addListener('change', () => {
+            this._reloadData();
+        });
     }
     static navigationOptions = ({ navigation }) => {
         return {
@@ -26,44 +33,59 @@ export default class Category extends Component {
               <Text>Thêm</Text>
             </TouchableOpacity>
           ),
-        //   headerLeft: (
-        //     <TouchableOpacity style={{ marginLeft: 10 }}>
-        //       <Text>CANCEL</Text>
-        //     </TouchableOpacity>
-        //   )
+        
         };
       };
     _onAdd(){
         this.props.navigation.navigate('AddCategory')
     }
-    componentWillMount() {
-        
-        this.props.navigation.setParams({ onAdd: this._onAdd.bind(this) });
-            // const newCategory = {
-            //     id: '1',
-            //     name: 'food',
-            //     icon: 'none',
-            //     isExpense: false
-            // }
-            // insertNewCategory(newCategory).then(() => {
-
-            // }).catch(() => {
-            //     alert('Loi them category');
-            // })
-        
-
-
-        queryAllCategoryLists().then((data) => {
-            this.setState({ data })
+    _reloadData(){
+         queryAllCategoryLists().then((data) => {
+            let Expense=[];
+            let Income=[];
+            for(var i=0;i<data.length;i++){
+                if(data[i].isExpense!=true){
+                    Expense.push(data[i])
+                   
+                }else{
+                    Income.push(data[i])
+                }
+            }
+            this.setState({ Expense })
+            this.setState({ Income })
         }).catch(() => {
             alert('Loi load category')
         })
     }
+    componentWillMount() {
+        
+        this.props.navigation.setParams({ onAdd: this._onAdd.bind(this) });
+       
+       
+    }
     render() {
         return (
             <View>
+                <View style={styles.containerSegment}>
+                     <Segment
+                        data={['Thu nhập', 'Chi tiêu']}
+                        selected={this.state.selected}
+                        onPress={index => {
+                            if(index==1){
+                                this.setState({isExpense:false})
+                                this.setState({selected:index})
+                            }else{
+                                this.setState({isExpense:true})
+                                this.setState({selected:index})
+
+                            }   
+                        }}
+                        horizontalWidth={150}
+                        horizontalHeight={30} />
+                </View>
+               
                 <FlatList
-                    data={this.state.data}
+                    data={this.state.isExpense?this.state.Income:this.state.Expense}
                     renderItem={({ item }) => {
                         let obj=JSON.parse(item.icon)
                         return (
@@ -100,5 +122,9 @@ const styles = StyleSheet.create({
     icon: {
         width: 35,
         height: 35
-    }
+    },
+    containerSegment:{
+        alignItems:'center',
+      
+     }
 });

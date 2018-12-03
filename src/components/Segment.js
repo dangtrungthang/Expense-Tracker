@@ -1,67 +1,114 @@
-import React, { Component } from 'react';
-import { View, Text, StyleSheet } from 'react-native';
-import Button from '../components/Button';
-import colors from '../configs/colors'
-export default class Segment extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            colorTab1:'white',
-            colorTab2:'white',
-            isTab:'1'
-        };
-    }
-isActive(){
-    switch(this.state.isTab){
-        case '1':
-        this.setState({colorTab1:colors.colorActiveGreen,colorTab2:'white',isTab:'2'})
-        break;
-        case '2':
-        this.setState({colorTab2:colors.colorActiveGreen,colorTab1:'white',isTab:'1'})
-    }
-}
-    render() {
-        return (
-            <View style={styles.container}>
-                <View style={styles.wrapper}>
-                    <Button 
-                    style={[styles.buttonTab,{backgroundColor:this.state.colorTab1}]} 
-                    title={this.props.titleTab1}
-                    onPress={()=>{
-                        this.setState({isTab:'1'})
-                        this.isActive();
-                        this.props.onPressTab1;
-                    }}/>
-                    <Button 
-                    style={[styles.buttonTab,{backgroundColor:this.state.colorTab2}]} 
-                    title={this.props.titleTab2}
-                    onPress={()=>{
-                        this.setState({isTab:'2'})
-                        this.isActive();
-                        this.props.onPressTab2;
-                    }}/>
-                </View>
+import React, { Component } from 'react'
+import PropTypes from 'prop-types'
+import {
+  View,
+  TouchableOpacity,
+  StyleSheet,
+  Text
+} from 'react-native'
 
-            </View>
-        );
-    }
+export default class Segment extends Component {
+  static propTypes = {
+    data: PropTypes.array,
+    titleSize: PropTypes.number,
+    verticalWidth: PropTypes.number,
+    onPress: PropTypes.func,
+    verticalHeight: PropTypes.number,
+    horizontalWidth: PropTypes.number,
+    horizontalHeight: PropTypes.number,
+    orientation: PropTypes.string,
+    activeColor: PropTypes.string,
+    inActiveColor: PropTypes.string,
+    textActiveColor: PropTypes.string,
+    textInActiveColor: PropTypes.string,
+    selected: PropTypes.number,
+    borderRadius: PropTypes.number,
+    borderColor: PropTypes.string,
+    // style: View.propTypes.style
+  };
+
+  static defaultProps = { // 返回默认的一些属性值
+    data: ['One', 'Two', 'Three'],
+    verticalWidth: 100,
+    verticalHeight: 120,
+    horizontalWidth: 200,
+    horizontalHeight: 40,
+    borderRadius: 5,
+    titleSize: 14,
+    orientation: 'horizontal',
+    borderColor: 'gray',
+    activeColor: 'red',
+    selected: 0,
+    textActiveColor: 'white',
+    onPress () {}
+  };
+
+  renderTabOption (tab, index) {
+    const {orientation, onPress, activeColor, inActiveColor, titleSize, textActiveColor, textInActiveColor, selected, borderRadius, borderColor} = this.props
+    const styles = createStyle(borderRadius)
+    const isTabActive = selected === index
+    const textColor = isTabActive ? (textActiveColor || inActiveColor) : (textInActiveColor || activeColor)
+    const itemStyle = orientation === 'horizontal'
+    ? (index === 0
+        ? [styles.horizontalStartItem, {borderWidth: 1}]
+        : (index < this.props.data.length - 1
+            ? [{borderWidth: 1, borderLeftWidth: 0}]
+            : [styles.horizontalEndItem, {borderWidth: 1, borderLeftWidth: 1, marginLeft: -1}]
+          )
+      )
+    : (index === 0
+        ? [styles.verticalStartItem, {borderWidth: 1}]
+        : (index < this.props.data.length - 1
+            ? [{borderWidth: 1, borderTopWidth: 0}]
+            : [styles.verticalEndItem, {borderWidth: 1, borderTopWidth: 0, marginTop: -1}]
+          )
+      )
+
+    return (
+      <TouchableOpacity key={index}
+        onPress={() => onPress(index)}
+        activeOpacity={1}
+        style={[styles.item, {backgroundColor: (isTabActive ? activeColor : inActiveColor), borderColor: borderColor}, ...itemStyle]}>
+        <Text style={{color: textColor, fontSize: titleSize}}>{tab}</Text>
+      </TouchableOpacity>)
+  }
+
+  render () {
+    const {verticalHeight, verticalWidth, horizontalHeight, horizontalWidth, data, orientation} = this.props
+
+    const style = orientation === 'horizontal'
+    ? [{height: horizontalHeight, width: horizontalWidth, flexDirection: 'row'}]
+    : [{width: verticalWidth, height: verticalHeight, flexDirection: 'column'}]
+    return (
+      <View style={[...style, {backgroundColor: 'transparent'}, {borderWidth: 0}, this.props.style]}>
+        {data.map((item, index) => this.renderTabOption(item, index))}
+      </View>
+    )
+  }
 }
-const styles = StyleSheet.create({
-    container: {
-        flexDirection: 'row',
-        marginTop: 5,
-        justifyContent: 'center',
-        marginRight:15
+
+function createStyle (borderRadius) {
+  return StyleSheet.create({
+    item: {
+      flex: 1,
+      justifyContent: 'center',
+      alignItems: 'center'
     },
-    buttonTab: {
-        borderRightWidth: 1,
-        width:50,
-        alignItems: 'center',
-        width:70
+    horizontalStartItem: {
+      borderTopLeftRadius: borderRadius,
+      borderBottomLeftRadius: borderRadius
     },
-    wrapper: {
-        flexDirection: 'row',
-        borderWidth: 1,
-        borderRadius: 3,
+    horizontalEndItem: {
+      borderTopRightRadius: borderRadius,
+      borderBottomRightRadius: borderRadius
+    },
+    verticalStartItem: {
+      borderTopLeftRadius: borderRadius,
+      borderTopRightRadius: borderRadius
+    },
+    verticalEndItem: {
+      borderBottomLeftRadius: borderRadius,
+      borderBottomRightRadius: borderRadius
     }
-});
+  })
+}

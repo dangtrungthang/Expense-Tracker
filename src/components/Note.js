@@ -18,7 +18,7 @@ activeNote(){
     )
 }
 disableNote(){
-
+  
 }
   render() {
     return (
