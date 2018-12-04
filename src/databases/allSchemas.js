@@ -35,6 +35,8 @@ export const AccountSchema = {
         id: 'string', //primary key
         name: { type: 'string', default: 'Default Account' },
         openingBlance: { type: 'string', default: '0' },
+        endingBlance: { type: 'string', default: '0' },
+        icon:'string',
         expenses: { type: 'list', objectType: EXPENSE_SCHEMA }
 
     }

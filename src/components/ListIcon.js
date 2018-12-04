@@ -164,11 +164,7 @@ const styles = StyleSheet.create({
         width: 35
     }
 });
-const mapStateToProps = (state) => {
-    return {
-        icon: state.getIconURL
-    }
-}
+
 const mapDispatchToProps = (dispatch) => {
     return {
         onGetURL: (URL) => {
@@ -178,5 +174,5 @@ const mapDispatchToProps = (dispatch) => {
 }
 
 
-export default connect(mapStateToProps, mapDispatchToProps)(ListIcon);
+export default connect(null, mapDispatchToProps)(ListIcon);
 

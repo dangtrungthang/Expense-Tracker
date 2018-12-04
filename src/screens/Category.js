@@ -15,10 +15,8 @@ class Category extends Component {
             isData:'',
             isExpense:true
         };
-        // this._reloadData();
-        // realm.addListener('change', () => {
-        //     this._reloadData();
-        // });
+        
+               
     }
     static navigationOptions = ({ navigation }) => {
         return {
@@ -60,11 +58,12 @@ class Category extends Component {
         })
     }
     componentWillMount() {
-        
+         this._reloadData()
         this.props.navigation.setParams({ onAdd: this._onAdd.bind(this) });
-       this._reloadData()
+      
        
     }
+    
     render() {
         return (
             <View>

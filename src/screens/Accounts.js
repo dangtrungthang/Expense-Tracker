@@ -1,30 +1,30 @@
 import React, { Component } from 'react';
-import { View, Text, FlatList, TouchableOpacity, StyleSheet } from 'react-native';
-import { Icon } from 'react-native-elements'
+import { View, Text, FlatList, TouchableOpacity, StyleSheet, Image } from 'react-native';
 //Import các func,moudle liên quan đến database
 import { queryAllAccountLists } from '../databases/allSchemas';
 // import redux
 import { connect } from 'react-redux';
 import * as actions from '../actions/index';
-import getAccountID from '../reducers/Accounts';
-
- class Accounts extends Component {
+// import component
+import ListSelector from '../components/ListSelector';
+class Accounts extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      data: []
+      data: [],
+
     };
   }
   // Tuỳ chỉnh navigatoin (icon, title, style,...)
   static navigationOptions = ({ navigation }) => {
     return {
-    
-     
-      headerRight:(
+
+
+      headerRight: (
         <TouchableOpacity
-        onPress={navigation.getParam('onAdd')}>
-         <Text style={{fontSize:28,marginRight:15}}>+</Text>
-          
+          onPress={navigation.getParam('onAdd')}>
+          <Text style={{ fontSize: 28, marginRight: 15 }}>+</Text>
+
         </TouchableOpacity>
       )
     };
@@ -35,26 +35,31 @@ import getAccountID from '../reducers/Accounts';
     this.props.navigation.setParams({ onAdd: this._onAdd.bind(this) });
   }
   // Hàm điều hướng sang màn hình addAccount
-  _onAdd(){
+  _onAdd() {
     this.props.navigation.navigate('AddAccount')
   }
   // Hàm thiết kế giao diện các Item trong danh sách
   renderItem = (item) => {
-    return (
-      <TouchableOpacity
-        onPress={(event) => { 
-          this.props.navigation.goBack();
-          
-          this.props.onGetID(item) }}
-        style={styles.containerItem}>
-        <View style={styles.containerText}>
-          <Text>{item.name}</Text>
-          <Text>{item.openingBlance}</Text>
-        </View>
-        <Icon
-        style={{tintColor:'red'}}
-        name={"check"}/>
-      </TouchableOpacity>
+        return (
+      // <TouchableOpacity
+      //   onPress={(event) => {
+      //     this.props.navigation.goBack();
+      //     this.props.onGetID(item)
+      //   }}
+      //   style={styles.containerItem}>
+      //   <View style={styles.containerText}>
+      //     <Text>{item.name}</Text>
+      //     <Text>{item.openingBlance}</Text>
+      //   </View>
+      //   <Icon
+      //     style={{ tintColor: 'red' }}
+      //     name={"check"} />
+      // </TouchableOpacity>
+      <ListSelector
+      text={item.name}
+      icon={JSON.parse(item.icon)}
+      />
+     
     )
   }
   // Hàm load database đổ vào state.data,
@@ -91,26 +96,22 @@ import getAccountID from '../reducers/Accounts';
 // Tuỳ chỉnh style 
 const styles = StyleSheet.create({
   containerItem: {
-    backgroundColor: '#6B00BD',
-    marginVertical: 5,
-    marginHorizontal: 10,
+    backgroundColor: 'white',
+
+
     height: 50,
-    borderRadius: 5,
+
     justifyContent: 'center',
     flexDirection: 'row',
-    
+
 
   },
-  containerText:{
-    flex:1
+  containerText: {
+    flex: 1
   },
-  
+
 });
-const mapStateToProps = (state) => {
-  return {
-    accountID:''
-  }
-}
+
 const mapDispatchToProps = (dispatch) => {
   return {
     onGetID: (account) => {
@@ -120,5 +121,5 @@ const mapDispatchToProps = (dispatch) => {
 }
 
 
-export default connect(mapStateToProps, mapDispatchToProps)(Accounts);
+export default connect(null, mapDispatchToProps)(Accounts);
 

@@ -50,6 +50,7 @@ class AddCategory extends Component {
         }).catch((error) => {
             alert('Loi them category')
         })
+        
     }
     render() {
         return (

@@ -16,7 +16,8 @@ class HeaderComponent extends Component {
                 <TouchableOpacity style={{
                     flex: 1,
                     marginLeft: 10,marginTop:12
-                }}>
+                }}
+                onPress={this.props.onPressIcon}>
                     <Image style={styles.iconStyle} source={this.props.icon} />
 
                 </TouchableOpacity>
