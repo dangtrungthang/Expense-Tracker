@@ -15,10 +15,10 @@ class Category extends Component {
             isData:'',
             isExpense:true
         };
-        this._reloadData();
-        realm.addListener('change', () => {
-            this._reloadData();
-        });
+        // this._reloadData();
+        // realm.addListener('change', () => {
+        //     this._reloadData();
+        // });
     }
     static navigationOptions = ({ navigation }) => {
         return {
@@ -62,7 +62,7 @@ class Category extends Component {
     componentWillMount() {
         
         this.props.navigation.setParams({ onAdd: this._onAdd.bind(this) });
-       
+       this._reloadData()
        
     }
     render() {
@@ -95,6 +95,7 @@ class Category extends Component {
                             <TouchableOpacity 
                             onPress={(event)=>{
                                 this.props.onGetCategory(item)
+                                this.props.navigation.goBack()
                             }}
                             style={styles.wrapperRow}>
                                 <Image style={styles.icon} source={obj} />

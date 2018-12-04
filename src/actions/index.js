@@ -1,18 +1,13 @@
-export const TANG = "TANG";
-export const GET_ACCOUNT_ID = "GET_ACCOUNT_ID";
+
+export const GET_ACCOUNT = "GET_ACCOUNT";
+export const GET_CATEGORY="GET_CATEGORY";
 export const GET_ICON = "GET_ICON";
 export const RETURN_TRUE_FALSE = "RETURN_TRUE_FALSE";
-export const GET_CATEGORY="GET_CATEGORY";
-export function tang(step) {
+
+export function getAccount(account) {
     return {
-        type: TANG,
-        step
-    }
-}
-export function getAccountID(id) {
-    return {
-        type: GET_ACCOUNT_ID,
-        id
+        type: GET_ACCOUNT,
+        payload:account
     }
 }
 export function getIcon(icon) {

@@ -44,7 +44,8 @@ import getAccountID from '../reducers/Accounts';
       <TouchableOpacity
         onPress={(event) => { 
           this.props.navigation.goBack();
-          this.props.onGetID(item.id)  }}
+          
+          this.props.onGetID(item) }}
         style={styles.containerItem}>
         <View style={styles.containerText}>
           <Text>{item.name}</Text>
@@ -107,13 +108,13 @@ const styles = StyleSheet.create({
 });
 const mapStateToProps = (state) => {
   return {
-    accountID:state.getAccountID
+    accountID:''
   }
 }
 const mapDispatchToProps = (dispatch) => {
   return {
-    onGetID: (id) => {
-      dispatch(actions.getAccountID(id))
+    onGetID: (account) => {
+      dispatch(actions.getAccount(account))
     }
   }
 }

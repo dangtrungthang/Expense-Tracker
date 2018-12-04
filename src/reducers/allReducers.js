@@ -1,12 +1,11 @@
-import {combineReducers} from 'redux';
-import tanggiam from './tanggiam';
-import getAccountID from './Accounts';
+import { combineReducers } from 'redux';
+import Account from './Accounts';
 import getIconURL from './Category';
-import {getCategory} from './Category';
-const allReducers=combineReducers({
-   tanggiam,
-   getAccountID,
+import { getCategory } from './Category';
+
+const allReducers = combineReducers({
+   Account,
+   getCategory,
    getIconURL,
-   getCategory
 });
 export default allReducers;

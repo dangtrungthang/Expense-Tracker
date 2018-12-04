@@ -1,9 +1,9 @@
-import { GET_ACCOUNT_ID } from '../actions/index';
+import { GET_ACCOUNT} from '../actions/index';
 
-export default function getAccountID(state = 0, action) {
+export default function Account(state = 0, action) {
     switch (action.type) {
-        case GET_ACCOUNT_ID:
-            return action.id
+        case GET_ACCOUNT:
+            return action.payload
         default:
             return state
     }

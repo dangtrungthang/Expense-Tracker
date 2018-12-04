@@ -15,7 +15,7 @@ import Modal from "react-native-modal";
 class AddExpense extends React.Component {
   constructor(props) {
     super(props)
-
+    
     this.state = {
       data: [{ id: 'd' }],
       text: '',
@@ -53,6 +53,7 @@ class AddExpense extends React.Component {
       )
     };
   };
+  
   _showDateTimePicker = () => this.setState({ isDateTimePickerVisible: true });
 
   _hideDateTimePicker = () => this.setState({ isDateTimePickerVisible: false });
@@ -67,7 +68,7 @@ class AddExpense extends React.Component {
    const expense=[
      {
        id:Math.floor(Date.now() / 1000).toString(),
-       accountID:this.props.accountID,
+       accountID:this.props.account.id,
        amount:this.state.amount,
        categoryName:this.props.categorySelected.name,
        categoryIcon:this.props.categorySelected.icon,
@@ -75,7 +76,7 @@ class AddExpense extends React.Component {
        creationDate:this.state.date,
      }
    ]
-  insertExpenseToAccount(this.props.accountID,expense).then(()=>{
+  insertExpenseToAccount(this.props.account.id,expense).then(()=>{
  alert('OK ')
   }).catch((error)=>{
     alert('Loi them')
@@ -86,6 +87,7 @@ class AddExpense extends React.Component {
 
  componentDidMount() {
   this.props.navigation.setParams({ onSave: this._onSave.bind(this) });
+  nameCC=this.props.account.name
 }
   render() {
    
@@ -110,10 +112,10 @@ class AddExpense extends React.Component {
           onCancel={this._hideDateTimePicker}
           mode='date'
         />
-        <ListSelector text={this.state.accountID} icon={iconDefaults.account}
+        <ListSelector text={this.props.account.name?this.props.account.name:'Account'} icon={iconDefaults.account}
         onPress={()=>{
           this.props.navigation.navigate('Accounts')
-          
+         
         }} />
          <ListSelector text={this.state.note} icon={iconDefaults.note} 
         onPress={()=>{
@@ -125,14 +127,14 @@ class AddExpense extends React.Component {
         }}/>
         <Note isActive={this.state.isNote}
         onChangeText={(text)=>this.setState({note:text})}/>
-       
+        <Text onPress={()=>this.setState({accountID:this.props.account.name})}>{this.props.account.name}</Text>
       </View>
     );
   }
 }
 const mapStateToProps = (state) => {
   return {
-    accountID:state.getAccountID,
+    account:state.Account,
     categorySelected:state.getCategory
   }
 }
