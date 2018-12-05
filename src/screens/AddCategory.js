@@ -51,6 +51,7 @@ class AddCategory extends Component {
             alert('Loi them category')
         })
         
+        this.props.navigation.goBack()
     }
     render() {
         return (

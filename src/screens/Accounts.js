@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import { View, Text, FlatList, TouchableOpacity, StyleSheet, Image } from 'react-native';
 //Import các func,moudle liên quan đến database
 import { queryAllAccountLists } from '../databases/allSchemas';
+import realm from '../databases/allSchemas';
+
 // import redux
 import { connect } from 'react-redux';
 import * as actions from '../actions/index';
@@ -14,6 +16,10 @@ class Accounts extends Component {
       data: [],
 
     };
+    realm.addListener('change',()=>{
+      this.loadData()
+      
+  })
   }
   // Tuỳ chỉnh navigatoin (icon, title, style,...)
   static navigationOptions = ({ navigation }) => {
@@ -34,6 +40,10 @@ class Accounts extends Component {
     this.loadData();
     this.props.navigation.setParams({ onAdd: this._onAdd.bind(this) });
   }
+  //
+  componentWillUnmount(){
+    realm.removeAllListeners()
+  }
   // Hàm điều hướng sang màn hình addAccount
   _onAdd() {
     this.props.navigation.navigate('AddAccount')
@@ -41,23 +51,13 @@ class Accounts extends Component {
   // Hàm thiết kế giao diện các Item trong danh sách
   renderItem = (item) => {
         return (
-      // <TouchableOpacity
-      //   onPress={(event) => {
-      //     this.props.navigation.goBack();
-      //     this.props.onGetID(item)
-      //   }}
-      //   style={styles.containerItem}>
-      //   <View style={styles.containerText}>
-      //     <Text>{item.name}</Text>
-      //     <Text>{item.openingBlance}</Text>
-      //   </View>
-      //   <Icon
-      //     style={{ tintColor: 'red' }}
-      //     name={"check"} />
-      // </TouchableOpacity>
+     
       <ListSelector
       text={item.name}
       icon={JSON.parse(item.icon)}
+      onPress={()=>{
+        this.props.onGetID(item)
+        this.props.navigation.goBack()}}
       />
      
     )
@@ -119,6 +119,7 @@ const mapDispatchToProps = (dispatch) => {
     }
   }
 }
+
 
 
 export default connect(null, mapDispatchToProps)(Accounts);

@@ -12,6 +12,7 @@ import iconDefaults from '../configs/iconDefaults'
 import { insertNewAccount, queryAllAccountLists,insertExpenseToAccount,insertCategoryToExpense } from '../databases/allSchemas';
 import { AccountsNv} from '../configs/configNavigation';
 import Modal from "react-native-modal";
+
 class AddExpense extends React.Component {
   constructor(props) {
     super(props)
@@ -73,6 +74,7 @@ class AddExpense extends React.Component {
        categoryName:this.props.categorySelected.name,
        categoryIcon:this.props.categorySelected.icon,
        isExpense:this.props.categorySelected.isExpense,
+       note:this.state.note,
        creationDate:this.state.date,
      }
    ]
@@ -112,7 +114,8 @@ class AddExpense extends React.Component {
           onCancel={this._hideDateTimePicker}
           mode='date'
         />
-        <ListSelector text={this.props.account.name?this.props.account.name:'Account'} icon={iconDefaults.account}
+        <ListSelector text={this.props.account.name?this.props.account.name:'Account'} 
+        icon={this.props.account.icon?JSON.parse(this.props.account.icon):iconDefaults.account}
         onPress={()=>{
           this.props.navigation.navigate('Accounts')
          
@@ -127,7 +130,6 @@ class AddExpense extends React.Component {
         }}/>
         <Note isActive={this.state.isNote}
         onChangeText={(text)=>this.setState({note:text})}/>
-        <Text onPress={()=>this.setState({accountID:this.props.account.name})}>{this.props.account.name}</Text>
       </View>
     );
   }
@@ -135,6 +137,7 @@ class AddExpense extends React.Component {
 const mapStateToProps = (state) => {
   return {
     account:state.Account,
+    getIconAccount:state.getIconAccount,
     categorySelected:state.getCategory
   }
 }

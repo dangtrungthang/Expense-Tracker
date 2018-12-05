@@ -66,6 +66,8 @@ class AddAccount extends Component {
     }).catch((error) => {
       alert('Loi~ them account')
     })
+
+    this.props.navigation.goBack()
   }
   // Huỷ quay về màn hình trước đó
   _onCancel() {

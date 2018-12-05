@@ -25,6 +25,7 @@ export const ExpenseSchema = {
         categoryName:'string',
         categoryIcon:'string',
         isExpense:'bool',
+        note:{type:'string',default:''},
         creationDate: 'string',
     }
 };
@@ -117,6 +118,7 @@ export const insertExpenseToAccount = (accountID, newExpense) => new Promise((re
 export const getExpenseFromAccount = (accountID) => new Promise((resolve, reject) => {
     Realm.open(databaseOptions).then(realm => {
         let accountList = realm.objectForPrimaryKey(ACCOUNT_SCHEMA, accountID);
+        
         resolve(accountList.expenses)
     }).catch((error) => {
         reject(error);

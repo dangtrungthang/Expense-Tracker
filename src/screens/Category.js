@@ -3,6 +3,7 @@ import { View, Text, FlatList, StyleSheet, Image, TouchableOpacity } from 'react
 import { insertNewCategory, queryAllCategoryLists, getIdCategory } from '../databases/allSchemas';
 import colors from '../configs/colors';
 import realm from '../databases/allSchemas';
+import Realm from 'realm'
 import Segment from '../components/Segment';
 import { connect } from 'react-redux';
 import * as actions from '../actions/index';
@@ -13,9 +14,14 @@ class Category extends Component {
             Expense: [],
             Income:[],
             isData:'',
-            isExpense:true
+            isExpense:true,
+            selected:1
         };
-        
+        this._reloadData()
+        realm.addListener('change',()=>{
+            this._reloadData()
+            
+        })
                
     }
     static navigationOptions = ({ navigation }) => {
@@ -44,7 +50,7 @@ class Category extends Component {
             let Expense=[];
             let Income=[];
             for(var i=0;i<data.length;i++){
-                if(data[i].isExpense!=true){
+                if(data[i].isExpense==true){
                     Expense.push(data[i])
                    
                 }else{
@@ -61,8 +67,10 @@ class Category extends Component {
          this._reloadData()
         this.props.navigation.setParams({ onAdd: this._onAdd.bind(this) });
       
-       
     }
+ componentWillUnmount(){
+     realm.removeAllListeners()
+ }
     
     render() {
         return (
@@ -72,7 +80,7 @@ class Category extends Component {
                         data={['Thu nhập', 'Chi tiêu']}
                         selected={this.state.selected}
                         onPress={index => {
-                            if(index==1){
+                            if(index==0){
                                 this.setState({isExpense:false})
                                 this.setState({selected:index})
                             }else{
